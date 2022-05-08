@@ -45,6 +45,29 @@
             initializeLiff(liffId);
         })
 
+        function initializeApp() {
+            // ログインチェック
+            if (liff.isLoggedIn()) {
+                //ログイン済
+                getLineData();
+            } else {
+                // 未ログイン
+                let result = window.confirm("LINE Loginしますか？");
+                if(result) {
+                    liff.login();
+                }
+            }
+        }
+        
+        function getLineData() {
+            liff.getProfile()
+            .then(profile => {
+              console.log("ログインしてるユーザーのid:" + profile.userId);
+              console.log("ログインしてるユーザーの名前:" + profile.displayName);
+              console.log("ログインしてるユーザーの画像URL:" + profile.pictureUrl);
+            })
+        }
+
         function initializeLiff(liffId) {
             liff.init({
                 liffId: liffId
